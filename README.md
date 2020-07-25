@@ -46,7 +46,7 @@ To run the tests :
 ```
 ./mvnw verify
 ```
-## UAT Test
+## Swagger Test
 
 Swagger tests are at this url :
 
