@@ -1,0 +1,83 @@
+
+management:
+  endpoints:
+    web:
+      base-path: /maintenance
+      exposure:
+        include: ['configprops', 'env', 'health', 'info', 'logfile', 'loggers', 'prometheus', 'threaddump']
+  endpoint:
+    health:
+  info:
+    git:
+      mode: full
+  health:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        step: 60
+    enable:
+      http: true
+      jvm: true
+      logback: true
+      process: true
+      system: true
+    distribution:
+      percentiles-histogram:
+        all: true
+      percentiles:
+        all: 0, 0.5, 0.75, 0.95, 0.99, 1.0
+    tags:
+      application: ${spring.application.name}
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
+
+spring:
+  application:
+    name: SnappGithubIntegration
+  profiles:
+    active: #spring.profiles.active#
+  jmx:
+    enabled: false
+  main:
+    allow-bean-definition-overriding: true
+  task:
+    execution:
+      thread-name-prefix: snapp-github-integration-task-
+      pool:
+        core-size: 2
+        max-size: 50
+        queue-capacity: 10000
+    scheduling:
+      thread-name-prefix: snapp-github-integration-scheduling-
+      pool:
+        size: 2
+  output:
+    ansi:
+      console-available: true
+
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true
+
+applicaion:
+  github:
+    github-url: 'https://api.github.com'
+  mongodb:
+    mongo-uri: 'mongodb://localhost:27017'
+  swagger:
+    default-include-pattern: /api/.*
+    title: SnappGithubIntegration API
+    description: SnappGithubIntegration API documentation
+    version: 0.0.1
+    terms-of-service-url:
+    contact-name: Arta Salahesh
+    contact-url:
+    contact-email: artasalahesh68@gmail.com
+    license: unlicensed
+    license-url:
