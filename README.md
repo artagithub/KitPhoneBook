@@ -24,7 +24,7 @@ For building with swagger enabled :
 
 ```
 
-./mvnw -Ppord,swagger clean verify
+./mvnw -Pprod,swagger clean verify
 
 ```
 
