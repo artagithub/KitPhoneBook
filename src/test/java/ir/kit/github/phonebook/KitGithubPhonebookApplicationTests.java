@@ -3,8 +3,8 @@ package ir.kit.github.phonebook;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import io.restassured.response.Response;
-import ir.kit.github.phonebook.KitGithubPhonebookApplication;
 import ir.kit.github.phonebook.service.dto.KitGithubAccountDTO;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,11 +13,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.*;
+
 
 
 @RunWith(SpringRunner.class)
@@ -30,6 +32,7 @@ class KitGithubPhonebookApplicationTests {
     private static String kitIdForUpdate;
 
     @Test
+    @Order(1)
     public void testCreateAccount() {
         given().port(port).basePath("/api/account/create")
                 .header("Content-Type", "application/json")
@@ -37,6 +40,7 @@ class KitGithubPhonebookApplicationTests {
     }
 
     @Test
+    @Order(2)
     public void testSearchLastCreatedAccount() {
         Response response = given().port(port).basePath("/api/account/search")
                 .queryParam("name", "Arta")
@@ -51,6 +55,7 @@ class KitGithubPhonebookApplicationTests {
 
 
     @Test
+    @Order(3)
     public void testUpdateAccount() {
         given().port(port).basePath("/api/account/update")
                 .header("Content-Type", "application/json")
@@ -62,6 +67,18 @@ class KitGithubPhonebookApplicationTests {
                         ,"artgithub"))
                 .put().then().statusCode(200)
         .assertThat().body("github",equalTo("artgithub"));
+    }
+
+    @Test
+    @Order(4)
+    public void testFindAll() {
+        Response response = given().port(port).basePath("/api/account/list")
+                .queryParam("name", "Arta")
+                .get();
+        String searchResponse = response.getBody().print();
+        Type listType = new TypeToken<List<KitGithubAccountDTO>>(){}.getType();
+        List list = new Gson().fromJson(searchResponse, listType);
+        assertEquals(list.size(),1);
     }
 
 

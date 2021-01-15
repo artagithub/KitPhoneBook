@@ -90,4 +90,21 @@ public class KitGithubAccountResource {
         return ResponseEntity.ok(kitGithubAccountService.search(kitGithubAccountDTO));
     }
 
+
+    /**
+     * {@code GET  /list} : Return all the contacts
+     *
+     * @return the {@link ResponseEntity} with status {@code 201 (Found)} and with body the new kitGithubAccountDTO, or with status {@code 400 (Bad Request)}
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @Operation(summary = "List all PhoneBook Account")
+    @ApiResponses(value = {@ApiResponse(responseCode= "200",content = {
+            @Content(mediaType = "application/json",schema = @Schema(implementation = KitGithubAccountDTO.class) )
+    },description = "Success")
+            ,@ApiResponse(responseCode = "400",description = "Not Found"),@ApiResponse(responseCode = "500",description = "Internal Server Error")})
+    @GetMapping( path = "/list", produces = "application/json")
+    public ResponseEntity<List<KitGithubAccountDTO>> list(){
+        return ResponseEntity.ok(kitGithubAccountService.findAll());
+    }
+
 }

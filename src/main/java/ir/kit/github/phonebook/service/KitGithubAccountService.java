@@ -92,6 +92,7 @@ public class KitGithubAccountService {
      * @return the list of entities.
      */
     public List<KitGithubAccountDTO> search(KitGithubAccountDTO kitGithubAccountDTO) {
+        log.debug("Request to search KitGithubAccount : {}", kitGithubAccountDTO);
         KitGithubAccount kitGithubAccount = kitGithubAccountMapper.toEntity(kitGithubAccountDTO);
         List<KitGithubAccount> findedKitGithubAccounts = kitGithubAccountRepository.search(kitGithubAccount);
         List<KitGithubAccountDTO> kitGithubAccountDTOS = new ArrayList<>();
@@ -103,6 +104,24 @@ public class KitGithubAccountService {
 
         return kitGithubAccountDTOS;
 
+    }
+
+
+    /**
+     * return All
+     *
+     * @return the list of entities.
+     */
+    public List<KitGithubAccountDTO> findAll() {
+        log.debug("Request to find all KitGithubAccounts");
+        List<KitGithubAccount> findedKitGithubAccounts = kitGithubAccountRepository.findAll();
+        List<KitGithubAccountDTO> kitGithubAccountDTOS = new ArrayList<>();
+        if (null!= findedKitGithubAccounts&& !findedKitGithubAccounts.isEmpty()){
+            for (KitGithubAccount findedKitGithubAccount : findedKitGithubAccounts) {
+                kitGithubAccountDTOS.add(kitGithubAccountMapper.toDto(findedKitGithubAccount));
+            }
+        }
+        return kitGithubAccountDTOS;
     }
 
 }
