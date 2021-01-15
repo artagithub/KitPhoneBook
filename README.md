@@ -1,4 +1,4 @@
-# SnappGithubIntegration
+# KitGithubIntegration
 
 ##Getting Started
 
@@ -11,7 +11,7 @@
 
 ### Jar Packaging
 
-To build the final jar and optimize the SnappGithubIntegration application for production, run:
+To build the final jar and optimize the KitGithubIntegration application for production, run:
 
 ```
 

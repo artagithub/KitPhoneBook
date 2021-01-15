@@ -1,7 +1,7 @@
 logging:
   level:
     ROOT: INFO
-    ir.snapp.github.integration: INFO
+    ir.kit.github.phonebook: INFO
 
 management:
   metrics:
@@ -18,7 +18,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017
-      database: SnappGithubIntegration
+      database: KitGithubIntegration
 server:
   port: 8080
   compression:
@@ -30,7 +30,7 @@ application:
   github:
     github-url: 'https://api.github.com'
   mongodb:
-    mongo-uri: 'mongodb://snappgithubintegration-mongodb:27017'
+    mongo-uri: 'mongodb://kitgithubphonebook-mongodb:27017'
   http:
     cache:
       timeToLiveInDays: 1461

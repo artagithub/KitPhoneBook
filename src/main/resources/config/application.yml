@@ -37,7 +37,7 @@ management:
 
 spring:
   application:
-    name: SnappGithubIntegration
+    name: KitGithubPhonebookApplication
   profiles:
     active: #spring.profiles.active#
   jmx:
@@ -46,13 +46,13 @@ spring:
     allow-bean-definition-overriding: true
   task:
     execution:
-      thread-name-prefix: snapp-github-integration-task-
+      thread-name-prefix: kit-github-phonebook-task-
       pool:
         core-size: 2
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: snapp-github-integration-scheduling-
+      thread-name-prefix: kit-github-phonebook-scheduling-
       pool:
         size: 2
   output:
@@ -72,12 +72,12 @@ applicaion:
     mongo-uri: 'mongodb://localhost:27017'
   swagger:
     default-include-pattern: /api/.*
-    title: SnappGithubIntegration API
-    description: SnappGithubIntegration API documentation
+    title: KitGithubPhonebook API
+    description: KitGithubPhonebook API documentation
     version: 0.0.1
     terms-of-service-url:
     contact-name: Arta Salahesh
     contact-url:
-    contact-email: artasalahesh68@gmail.com
+    contact-email: artssalahesh@gmail.com
     license: unlicensed
     license-url:

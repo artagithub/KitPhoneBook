@@ -1,16 +1,16 @@
 version: '2'
 services:
-  snappgithubintegration-app:
-    image: snappgithubintegration
+  kitgithubphonebook-app:
+    image: kitgithubphonebook
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
       - SPRING_PROFILES_ACTIVE=prod,swagger
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
-      - SPRING_DATA_MONGODB_URI=mongodb://snappgithubintegration-mongodb:27017
-      - SPRING_DATA_MONGODB_DATABASE=SnappGithubIntegration
+      - SPRING_DATA_MONGODB_URI=mongodb://kitgithubphonebook-mongodb:27017
+      - SPRING_DATA_MONGODB_DATABASE=KitGithubIntegration
     ports:
       - 8080:8080
-  snappgithubintegration-mongodb:
+  kitgithubphonebook-mongodb:
     extends:
       file: mongodb.yml
-      service: snappgithubintegration-mongodb
+      service: kitgithubphonebook-mongodb

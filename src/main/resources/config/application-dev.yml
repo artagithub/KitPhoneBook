@@ -1,7 +1,7 @@
 logging:
   level:
     ROOT: DEBUG
-    ir.snapp.github.integration: DEBUG
+    ir.kit.github.phonebook: DEBUG
 
 spring:
   profiles:
@@ -20,7 +20,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017
-      database: SnappGithubIntegration
+      database: KitGithubIntegration
   messages:
     cache-duration: PT1S
 
