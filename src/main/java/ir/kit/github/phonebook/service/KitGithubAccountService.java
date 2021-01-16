@@ -124,4 +124,22 @@ public class KitGithubAccountService {
         return kitGithubAccountDTOS;
     }
 
+
+
+    /**
+     * Delete Kit Account
+     *
+     * @return the deleted entity.
+     */
+    public KitGithubAccountDTO delete(String id) {
+        log.debug("Request to delete KitGithubAccounts");
+        Optional<KitGithubAccount> kitGithubAccountFinded = kitGithubAccountRepository.findById(id);
+        if(kitGithubAccountFinded.isPresent()){
+            KitGithubAccount kitGithubAccount = kitGithubAccountFinded.get();
+            kitGithubAccountRepository.deleteById(id);
+            return kitGithubAccountMapper.toDto(kitGithubAccount);
+        }
+        return new KitGithubAccountDTO();
+    }
+
 }

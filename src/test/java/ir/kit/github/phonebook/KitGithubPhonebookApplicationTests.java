@@ -29,7 +29,7 @@ class KitGithubPhonebookApplicationTests {
     @LocalServerPort
     int port;
 
-    private static String kitIdForUpdate;
+    private static String kitId;
 
     @Test
     @Order(1)
@@ -49,7 +49,7 @@ class KitGithubPhonebookApplicationTests {
         Type listType = new TypeToken<List<KitGithubAccountDTO>>(){}.getType();
         List list = new Gson().fromJson(searchResponse, listType);
         KitGithubAccountDTO kitGithubAccountDTO = (KitGithubAccountDTO) list.get(0);
-        kitIdForUpdate = kitGithubAccountDTO.getId();
+        kitId = kitGithubAccountDTO.getId();
         response.then().statusCode(200).assertThat().body("name", hasItem("Arta Salahesh"));
     }
 
@@ -59,12 +59,12 @@ class KitGithubPhonebookApplicationTests {
     public void testUpdateAccount() {
         given().port(port).basePath("/api/account/update")
                 .header("Content-Type", "application/json")
-                .body(new KitGithubAccountDTO(kitIdForUpdate
+                .body(new KitGithubAccountDTO(kitId
                         , "Arta Salahesh"
                         , "09122080268"
                         , "artasalahesh68@gmail.com"
                         , "Kit"
-                        ,"artgithub"))
+                        ,"artgithub",null))
                 .put().then().statusCode(200)
         .assertThat().body("github",equalTo("artgithub"));
     }
@@ -79,6 +79,15 @@ class KitGithubPhonebookApplicationTests {
         Type listType = new TypeToken<List<KitGithubAccountDTO>>(){}.getType();
         List list = new Gson().fromJson(searchResponse, listType);
         assertEquals(list.size(),1);
+    }
+
+
+    @Test
+    @Order(5)
+    public void testDelete() {
+     given().port(port).basePath("/api/account/delete")
+                .queryParam("id", kitId)
+                .delete().then().statusCode(200).assertThat().body("github",equalTo("artgithub"));
     }
 
 

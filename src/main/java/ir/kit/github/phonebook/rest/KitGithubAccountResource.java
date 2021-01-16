@@ -107,4 +107,21 @@ public class KitGithubAccountResource {
         return ResponseEntity.ok(kitGithubAccountService.findAll());
     }
 
+
+    /**
+     * {@code DELETE  /delete} : Return the deleted account
+     *
+     * @return the {@link ResponseEntity} with status {@code 201 (Found)} and with body the new kitGithubAccountDTO, or with status {@code 400 (Bad Request)}
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @Operation(summary = "Delete PhoneBook Account")
+    @ApiResponses(value = {@ApiResponse(responseCode= "200",content = {
+            @Content(mediaType = "application/json",schema = @Schema(implementation = KitGithubAccountDTO.class) )
+    },description = "Success")
+            ,@ApiResponse(responseCode = "400",description = "Not Found"),@ApiResponse(responseCode = "500",description = "Internal Server Error")})
+    @DeleteMapping( path = "/delete", produces = "application/json")
+    public ResponseEntity<KitGithubAccountDTO> delete(@RequestParam String id){
+        return ResponseEntity.ok(kitGithubAccountService.delete(id));
+    }
+
 }

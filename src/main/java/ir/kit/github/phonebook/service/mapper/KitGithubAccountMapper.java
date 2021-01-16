@@ -44,6 +44,7 @@ public interface KitGithubAccountMapper extends EntityMapper<KitGithubAccountDTO
         kitGithubAccountDTO.setName(entity.getName());
         kitGithubAccountDTO.setOrganization(entity.getOrganization());
         kitGithubAccountDTO.setPhoneNumber(entity.getPhoneNumber());
+        kitGithubAccountDTO.setGithubRepoNames(entity.getGithubRepoNames());
         return kitGithubAccountDTO;
     }
 

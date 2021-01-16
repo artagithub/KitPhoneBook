@@ -6,6 +6,7 @@ import lombok.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * A DTO for the {@link KitGithubAccount} entity.
@@ -37,4 +38,6 @@ public class KitGithubAccountDTO implements Serializable {
     @NotNull
     private String github;
 
+
+    private List<String> githubRepoNames;
 }
