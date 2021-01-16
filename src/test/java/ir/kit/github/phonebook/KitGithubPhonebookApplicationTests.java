@@ -84,6 +84,15 @@ class KitGithubPhonebookApplicationTests {
 
     @Test
     @Order(5)
+    public void testFindById() {
+        given().port(port).basePath("/api/account/find")
+                .queryParam("id", kitId)
+                .get().then().statusCode(200).assertThat().body("github",equalTo("artgithub"));
+    }
+
+
+    @Test
+    @Order(6)
     public void testDelete() {
      given().port(port).basePath("/api/account/delete")
                 .queryParam("id", kitId)

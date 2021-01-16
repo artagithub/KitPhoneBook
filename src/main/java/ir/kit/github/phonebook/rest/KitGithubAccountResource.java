@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import ir.kit.github.phonebook.domain.KitGithubAccount;
 import ir.kit.github.phonebook.service.KitGithubAccountService;
 import ir.kit.github.phonebook.service.dto.KitGithubAccountDTO;
+import ir.kit.github.phonebook.service.dto.KitGithubCreateUpdateDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -44,12 +45,12 @@ public class KitGithubAccountResource {
      */
     @Operation(summary = "Create new PhoneBook Account")
     @ApiResponses(value = {@ApiResponse(responseCode= "200",content = {
-            @Content(mediaType = "application/json",schema = @Schema(implementation = KitGithubAccountDTO.class) )
+            @Content(mediaType = "application/json",schema = @Schema(implementation = KitGithubCreateUpdateDTO.class) )
     },description = "Success")
     ,@ApiResponse(responseCode = "400",description = "Not Found"),@ApiResponse(responseCode = "500",description = "Internal Server Error")})
     @PostMapping("/create")
     public @ResponseBody
-    CompletableFuture<KitGithubAccountDTO> createKitGithubAccount(@Valid @RequestBody KitGithubAccountDTO kitGithubAccountDTO) throws URISyntaxException {
+    CompletableFuture<KitGithubAccountDTO> createKitGithubAccount(@Valid @RequestBody KitGithubCreateUpdateDTO kitGithubAccountDTO) throws URISyntaxException {
         log.debug("REST request to save  KitGithubAccount : {}", kitGithubAccountDTO);
         return kitGithubAccountService.save(kitGithubAccountDTO);
     }
@@ -63,12 +64,12 @@ public class KitGithubAccountResource {
      */
     @Operation(summary = "Update PhoneBook Account")
     @ApiResponses(value = {@ApiResponse(responseCode= "200",content = {
-            @Content(mediaType = "application/json",schema = @Schema(implementation = KitGithubAccountDTO.class) )
+            @Content(mediaType = "application/json",schema = @Schema(implementation = KitGithubCreateUpdateDTO.class) )
     },description = "Success")
             ,@ApiResponse(responseCode = "400",description = "Not Found"),@ApiResponse(responseCode = "500",description = "Internal Server Error")})
     @PutMapping("/update")
     public @ResponseBody
-    CompletableFuture<KitGithubAccountDTO> updateKitGithubAccount(@Valid @RequestBody KitGithubAccountDTO kitGithubAccountDTO) throws URISyntaxException {
+    CompletableFuture<KitGithubAccountDTO> updateKitGithubAccount(@Valid @RequestBody KitGithubCreateUpdateDTO kitGithubAccountDTO) throws URISyntaxException {
         log.debug("REST request to update KitGithubAccount : {}", kitGithubAccountDTO);
         return kitGithubAccountService.update(kitGithubAccountDTO);
     }
@@ -76,7 +77,7 @@ public class KitGithubAccountResource {
     /**
      * {@code GET  /search} : Search for accounts.
      *
-     * @param kitGithubAccountDTO the kitGithubAccountDTO to create.
+     * @param kitGithubAccountDTO the kitGithubAccountDTO to search.
      * @return the {@link ResponseEntity} with status {@code 201 (Found)} and with body the new kitGithubAccountDTO, or with status {@code 400 (Bad Request)}
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
@@ -88,6 +89,24 @@ public class KitGithubAccountResource {
     @GetMapping( path = "/search", produces = "application/json")
     public ResponseEntity<List<KitGithubAccountDTO>> search(KitGithubAccountDTO kitGithubAccountDTO){
         return ResponseEntity.ok(kitGithubAccountService.search(kitGithubAccountDTO));
+    }
+
+
+    /**
+     * {@code GET  /findById} : Search for accounts.
+     *
+     * @param Kit Account Id to find.
+     * @return the {@link ResponseEntity} with status {@code 201 (Found)} and with body the new kitGithubAccountDTO, or with status {@code 400 (Bad Request)}
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @Operation(summary = "Find PhoneBook Account")
+    @ApiResponses(value = {@ApiResponse(responseCode= "200",content = {
+            @Content(mediaType = "application/json",schema = @Schema(implementation = KitGithubAccountDTO.class) )
+    },description = "Success")
+            ,@ApiResponse(responseCode = "400",description = "Not Found"),@ApiResponse(responseCode = "500",description = "Internal Server Error")})
+    @GetMapping( path = "/find", produces = "application/json")
+    public ResponseEntity<KitGithubAccountDTO> findById(@RequestParam String id){
+        return ResponseEntity.ok(kitGithubAccountService.findById(id));
     }
 
 

@@ -15,14 +15,7 @@ import java.util.List;
 public interface KitGithubAccountMapper extends EntityMapper<KitGithubAccountDTO, KitGithubAccount> {
 
 
-    default KitGithubAccount toEntityUpdate(KitGithubAccount kitGithubAccount,KitGithubAccountDTO kitGithubAccountDTO){
-        kitGithubAccount.setEmail(kitGithubAccountDTO.getEmail());
-        kitGithubAccount.setGithub(kitGithubAccountDTO.getGithub());
-        kitGithubAccount.setName(kitGithubAccountDTO.getName());
-        kitGithubAccount.setOrganization(kitGithubAccountDTO.getOrganization());
-        kitGithubAccount.setPhoneNumber(kitGithubAccountDTO.getPhoneNumber());
-        return kitGithubAccount;
-    }
+
 
     @Override
     default KitGithubAccount toEntity(KitGithubAccountDTO dto) {

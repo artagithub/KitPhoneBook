@@ -4,6 +4,8 @@ import ir.kit.github.phonebook.domain.KitGithubAccount;
 import ir.kit.github.phonebook.repository.KitGithubAccountRepository;
 import ir.kit.github.phonebook.restclient.GithubApiClient;
 import ir.kit.github.phonebook.service.dto.KitGithubAccountDTO;
+import ir.kit.github.phonebook.service.dto.KitGithubCreateUpdateDTO;
+import ir.kit.github.phonebook.service.mapper.KitGithubAccountCRUDMapper;
 import ir.kit.github.phonebook.service.mapper.KitGithubAccountMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +33,8 @@ public class KitGithubAccountService {
 
     private final KitGithubAccountMapper kitGithubAccountMapper;
 
+    private final KitGithubAccountCRUDMapper kitGithubAccountCRUDMapper;
+
     private final GithubApiClient githubApiClient;
 
 
@@ -38,10 +42,12 @@ public class KitGithubAccountService {
 
     public KitGithubAccountService(KitGithubAccountRepository kitGithubAccountRepository
             , KitGithubAccountMapper kitGithubAccountMapper
+            , KitGithubAccountCRUDMapper kitGithubAccountCRUDMapper
             , GithubApiClient githubApiClient
     ) {
         this.kitGithubAccountRepository = kitGithubAccountRepository;
         this.kitGithubAccountMapper = kitGithubAccountMapper;
+        this.kitGithubAccountCRUDMapper= kitGithubAccountCRUDMapper;
         this.githubApiClient = githubApiClient;
     }
 
@@ -51,9 +57,9 @@ public class KitGithubAccountService {
      * @param kitGithubAccountDTO the entity to save.
      * @return the persisted entity.
      */
-    public CompletableFuture<KitGithubAccountDTO> save(KitGithubAccountDTO kitGithubAccountDTO) {
+    public CompletableFuture<KitGithubAccountDTO> save(KitGithubCreateUpdateDTO kitGithubAccountDTO) {
         log.debug("Request to save KitGithubAccount : {}", kitGithubAccountDTO);
-        KitGithubAccount kitGithubAccount = kitGithubAccountMapper.toEntity(kitGithubAccountDTO);
+        KitGithubAccount kitGithubAccount = kitGithubAccountCRUDMapper.toEntity(kitGithubAccountDTO);
         Optional<List<String>> repositoryNames = githubApiClient.repoInfoByGithubAccount(kitGithubAccount.getGithub());
         kitGithubAccount.setGithubRepoNames(repositoryNames.orElse(new ArrayList<>()));
         kitGithubAccount = kitGithubAccountRepository.save(kitGithubAccount);
@@ -66,7 +72,7 @@ public class KitGithubAccountService {
      * @param kitGithubAccountDTO the entity to update.
      * @return the updated entity.
      */
-    public CompletableFuture<KitGithubAccountDTO> update(KitGithubAccountDTO kitGithubAccountDTO) {
+    public CompletableFuture<KitGithubAccountDTO> update(KitGithubCreateUpdateDTO kitGithubAccountDTO) {
         log.debug("Request to update KitGithubAccount : {}", kitGithubAccountDTO);
         Optional<KitGithubAccount> kitGithubAccountFinded = kitGithubAccountRepository.findById(kitGithubAccountDTO.getId());
         if(kitGithubAccountFinded.isPresent()) {
@@ -74,7 +80,7 @@ public class KitGithubAccountService {
             if (!kitGithubAccountFinded.get().getGithub().equals(kitGithubAccountDTO.getGithub())) {
                 repositoryNames = githubApiClient.repoInfoByGithubAccount(kitGithubAccountDTO.getGithub());
             }
-            KitGithubAccount kitGithubAccount = kitGithubAccountMapper.toEntityUpdate(kitGithubAccountFinded.orElse(new KitGithubAccount())
+            KitGithubAccount kitGithubAccount = kitGithubAccountCRUDMapper.toEntityUpdate(kitGithubAccountFinded.orElse(new KitGithubAccount())
                     , kitGithubAccountDTO);
             kitGithubAccount.setGithubRepoNames(repositoryNames.orElse(kitGithubAccountFinded.get().getGithubRepoNames()));
             kitGithubAccount.setId(kitGithubAccountDTO.getId());
@@ -137,6 +143,22 @@ public class KitGithubAccountService {
         if(kitGithubAccountFinded.isPresent()){
             KitGithubAccount kitGithubAccount = kitGithubAccountFinded.get();
             kitGithubAccountRepository.deleteById(id);
+            return kitGithubAccountMapper.toDto(kitGithubAccount);
+        }
+        return new KitGithubAccountDTO();
+    }
+
+
+    /**
+     * Find Kit Account
+     *
+     * @return the finded entity.
+     */
+    public KitGithubAccountDTO findById(String id) {
+        log.debug("Request to delete KitGithubAccounts");
+        Optional<KitGithubAccount> kitGithubAccountFinded = kitGithubAccountRepository.findById(id);
+        if(kitGithubAccountFinded.isPresent()){
+            KitGithubAccount kitGithubAccount = kitGithubAccountFinded.get();
             return kitGithubAccountMapper.toDto(kitGithubAccount);
         }
         return new KitGithubAccountDTO();
