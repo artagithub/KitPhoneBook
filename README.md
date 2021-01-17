@@ -9,6 +9,14 @@
 
 2. The application can run in different active profiles dev,prod.
 
+3. For testing the API and documentation of the rest API , this application is integrated with swagger 
+
+4. FOR testing the API the REST Assured has been used
+
+5. The application runs with the embedded MongoDB
+
+6. The application can be run on the docker 
+
 ### Jar Packaging
 
 To build the final jar and optimize the KitGithubIntegration application for production, run:
